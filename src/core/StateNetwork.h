@@ -111,6 +111,7 @@ protected:
   NodeLinkMap m_nodeLinkMap;
   unsigned int m_numNodesFound = 0;
   unsigned int m_numStateNodesFound = 0;
+  double m_sumNodeWeight = 0.0;
   unsigned int m_numLinksFound = 0;
   unsigned int m_numLinks = 0;
   unsigned int m_numSelfLinksFound = 0;
@@ -180,6 +181,7 @@ public:
   const NodeMap& nodes() const { return m_nodes; }
   unsigned int numNodes() const { return m_nodes.size(); }
   unsigned int numPhysicalNodes() const { return m_physNodes.size(); }
+  double sumNodeWeight() const { return m_sumNodeWeight; }
   const NodeLinkMap& nodeLinkMap() const { return m_nodeLinkMap; }
   NodeLinkMap& nodeLinkMap() { return m_nodeLinkMap; }
   // const LinkMap& links() const { return m_links; }
