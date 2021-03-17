@@ -114,6 +114,7 @@ struct Config {
   bool noCoarseTune = false;
   bool directedEdges = false; // For clustering
   bool recordedTeleportation = false;
+  bool bayesianPrior = false; // Add a Bayesian prior network with recorded teleportation (sets recordedTeleportation and teleportToNodes to true)
   double teleportationProbability = 0.15;
   unsigned int preferredNumberOfModules = 0;
   unsigned long seedToRandomNumberGenerator = 123;
@@ -227,6 +228,7 @@ struct Config {
     noCoarseTune = other.noCoarseTune;
     directedEdges = other.directedEdges;
     recordedTeleportation = other.recordedTeleportation;
+    bayesianPrior = other.bayesianPrior;
     teleportationProbability = other.teleportationProbability;
     // preferredNumberOfModules = other.preferredNumberOfModules;
     seedToRandomNumberGenerator = other.seedToRandomNumberGenerator;

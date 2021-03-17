@@ -60,6 +60,7 @@ protected:
 
   void calcUndirectedFlow() noexcept;
   void calcDirectedFlow(const StateNetwork&, const Config&) noexcept;
+  void calcDirectedFlowWithBayesianPrior(const StateNetwork&, const Config&) noexcept;
   void calcDirectedBipartiteFlow(const StateNetwork&, const Config&) noexcept;
   void calcDirdirFlow(const Config&) noexcept;
   void calcRawdirFlow() noexcept;
