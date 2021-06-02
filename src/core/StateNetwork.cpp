@@ -358,7 +358,7 @@ void StateNetwork::writeStateNetwork(std::string filename) const
   }
 }
 
-void StateNetwork::writePajekNetwork(std::string filename) const
+void StateNetwork::writePajekNetwork(std::string filename, bool printFlow) const
 {
   if (filename.empty())
     throw BadArgumentError("writePajekNetwork called with empty filename");
@@ -371,6 +371,7 @@ void StateNetwork::writePajekNetwork(std::string filename) const
     outFile << "# State network as physical network\n";
 
   outFile << "*Vertices\n";
+  outFile << "#id name " << (printFlow ? "flow" : "weight") << "\n";
   for (const auto& nodeIt : nodes()) {
     const auto& node = nodeIt.second;
     outFile << node.id << " \"";
@@ -380,13 +381,15 @@ void StateNetwork::writePajekNetwork(std::string filename) const
       outFile << nameIt->second;
     else
       outFile << node.id;
-    outFile << "\"\n";
+    outFile << "\" " << (printFlow ? node.flow : node.weight) << "\n";
   }
 
   outFile << (m_config.printAsUndirected() ? "*Edges" : "*Arcs") << "\n";
+  outFile << "#source target " << (printFlow ? "flow" : "weight") << "\n";
   for (auto& linkIt : m_nodeLinkMap) {
     for (auto& subIt : linkIt.second) {
-      outFile << linkIt.first.id << " " << subIt.first.id << " " << subIt.second.weight << "\n";
+      auto& linkData = subIt.second;
+      outFile << linkIt.first.id << " " << subIt.first.id << " " << (printFlow ? linkData.flow : linkData.weight) << "\n";
     }
   }
 }
