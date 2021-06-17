@@ -78,7 +78,7 @@ protected:
 
   std::map<unsigned int, unsigned int> nodeIndexMap;
   std::vector<double> nodeFlow;
-  std::vector<double> nodeTeleportRates;
+  std::vector<double> nodeTeleportWeights;
   std::vector<double> nodeTeleportFlow;
   std::vector<double> enterFlow;
   std::vector<double> exitFlow;
