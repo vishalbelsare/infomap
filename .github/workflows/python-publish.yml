@@ -25,13 +25,14 @@ jobs:
 
   build:
     needs: swig
-    name: ${{ matrix.config.name }}
+    name: ${{ matrix.config.name }}-python-${{ matrix.python-version }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
         config:
           - { name: windows, os: windows-latest, flags: "-static" }
           - { name: macos, os: macos-latest, flags: "" }
+        python-version: [3.6, 3.7, 3.8]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
@@ -41,7 +42,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         shell: bash
         run: |
@@ -64,7 +65,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           retention-days: 1
-          name: package-${{ matrix.config.name }}
+          name: package-${{ matrix.config.name }}-${{ matrix.python-version }}
           path: build/py/
 
   publish:
@@ -74,17 +75,37 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: package-windows
-          path: windows
+          name: package-windows-3.6
+          path: windows-3.6
       - uses: actions/download-artifact@v2
         with:
-          name: package-macos
-          path: macos
+          name: package-windows-3.7
+          path: windows-3.7
+      - uses: actions/download-artifact@v2
+        with:
+          name: package-windows-3.8
+          path: windows-3.8
+      - uses: actions/download-artifact@v2
+        with:
+          name: package-macos-3.6
+          path: macos-3.6
+      - uses: actions/download-artifact@v2
+        with:
+          name: package-macos-3.7
+          path: macos-3.7
+      - uses: actions/download-artifact@v2
+        with:
+          name: package-macos-3.8
+          path: macos-3.8
       - name: Copy build files
         run: |
           mkdir build
-          mv macos build/py
-          mv windows/dist/*.whl build/py/dist
+          mv macos-3.8 build/py
+          mv macos-3.6/dist/*.whl build/py/dist
+          mv macos-3.7/dist/*.whl build/py/dist
+          mv windows-3.6/dist/*.whl build/py/dist
+          mv windows-3.7/dist/*.whl build/py/dist
+          mv windows-3.8/dist/*.whl build/py/dist
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
